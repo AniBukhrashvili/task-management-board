@@ -11,7 +11,7 @@ import AppSelect from "../AppSelect";
 const statuses = [
   { value: "todo", name: "To Do" },
   { value: "inprogress", name: "In Progress" },
-  { value: "completed", name: "Completed" },
+  { value: "done", name: "Done" },
 ];
 
 export default function CreateTaskModal({

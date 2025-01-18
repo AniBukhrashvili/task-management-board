@@ -23,7 +23,7 @@ export default function HomePage() {
             <AppTaskColumn status="inprogress">
               <AppTaskCard />
             </AppTaskColumn>
-            <AppTaskColumn status="completed">
+            <AppTaskColumn status="done">
               <AppTaskCard />
               <AppTaskCard />
             </AppTaskColumn>

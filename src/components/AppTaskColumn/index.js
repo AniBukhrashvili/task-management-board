@@ -9,14 +9,14 @@ export default function AppTaskColumn({ children, status }) {
           [styles["AppTaskColumn__Status--ToDo"]]: status === "todo",
           [styles["AppTaskColumn__Status--InProgress"]]:
             status === "inprogress",
-          [styles["AppTaskColumn__Status--Completed"]]: status === "completed",
+          [styles["AppTaskColumn__Status--Done"]]: status === "done",
         })}
       >
         {status === "todo"
           ? "To Do"
           : status === "inprogress"
           ? "In Progress"
-          : "Completed"}
+          : "Done"}
       </div>
       {children}
     </div>
