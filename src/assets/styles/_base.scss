@@ -1,0 +1,30 @@
+@font-face {
+  font-family: jakarta;
+  src: url("../fonts/PlusJakartaSans-Regular.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: jakarta-bold;
+  src: url("../fonts/PlusJakartaSans-Medium.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: jakarta-light;
+  src: url("../fonts/PlusJakartaSans-ExtraLight.ttf") format("opentype");
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-gray-800);
+  font-size: var(--font-size-ui-16);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family);
+  padding: 0;
+  margin: 0;
+}

@@ -1,0 +1,44 @@
+:root {
+  //Colors
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-800: #1E293B;
+  --color-gray-700: #2d3648;
+  --color-gray-600: #475569;
+  --color-gray-500: #94A3B8;
+  --color-gray-200: #EEF2FF;
+  --color-gray-100: #E2E8F0;
+  --color-green-100: #22C55E;
+  --color-orange-200: #F59E0B;
+  --color-primary-200: #4F46E5;
+
+  //Font Sizes
+  --font-size-ui-30: 30px;
+  --font-size-ui-20: 20px;
+  --font-size-ui-18: 18px;
+  --font-size-ui-16: 16px;
+  --font-size-ui-14: 14px;
+
+  //Font Family
+  --font-family: jakarta;
+  --font-family-bold: jakarta-bold;
+  --font-family-light: jakarta-light;
+
+  //Font Weights
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+
+  //Border Radiuses
+  --border-radius-sm: 24px;
+  --border-radius-md: 32px;
+  --border-radius-half: 50%;
+
+  //Transitions
+  --transition-base: 0.3s ease;
+
+  //Container Sizes
+  --container-padding-x: 16px;
+  --container-width: 1396px;
+}
