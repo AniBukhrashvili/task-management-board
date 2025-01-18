@@ -1,0 +1,22 @@
+.AppHeaderMobile {
+  padding: 16px 0;
+  background-color: var(--color-gray-400);
+
+  &__Figure {
+    margin: 0;
+    display: flex;
+  }
+
+  &__Inner {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__Menu {
+    margin-top: 6px;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
