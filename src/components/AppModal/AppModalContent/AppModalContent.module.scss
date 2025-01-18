@@ -1,0 +1,6 @@
+.AppModalContent {
+  position: relative;
+  flex-grow: 1;
+  padding: var(--modal-content-padding);
+  overflow-y: auto;
+}

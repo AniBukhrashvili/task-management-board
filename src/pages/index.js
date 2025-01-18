@@ -4,6 +4,11 @@ import AppHeaderTitle from "../components/AppHeaderTitle";
 import AppTaskCard from "../components/AppTaskCard";
 import AppTaskColumn from "../components/AppTaskColumn";
 import AppLayout from "../layout/AppLayout";
+import AppModal from "../components/AppModal";
+import AppModalHeader from "../components/AppModal/AppModalHeader";
+import AppModalContent from "../components/AppModal/AppModalContent";
+import AppModalActions from "../components/AppModal/AppModalActions";
+import AppButton from "../components/AppButton";
 import styles from "./HomePage.module.scss";
 
 export default function HomePage() {
@@ -30,6 +35,15 @@ export default function HomePage() {
           </div>
         </AppContainer>
       </main>
+
+      {/* <AppModal isVisible={true}>
+        <AppModalHeader onClose>Create</AppModalHeader>
+        <AppModalContent>content</AppModalContent>
+        <AppModalActions>
+          <AppButton variant="secondary">Cancel</AppButton>
+          <AppButton variant="primary">Create</AppButton>
+        </AppModalActions>
+      </AppModal> */}
     </AppLayout>
   );
 }

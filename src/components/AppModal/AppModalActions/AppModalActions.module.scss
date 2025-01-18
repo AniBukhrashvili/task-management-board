@@ -1,0 +1,10 @@
+.AppModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: var(--modal-actions-padding);
+
+  &--Center {
+    justify-content: center;
+  }
+}

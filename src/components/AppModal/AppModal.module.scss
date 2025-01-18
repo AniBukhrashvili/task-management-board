@@ -1,0 +1,25 @@
+.AppModal {
+  position: fixed;
+  z-index: 8001;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-additional-gray-o3);
+  backdrop-filter: blur(4px);
+
+  &__Container {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    max-width: var(--modal-max-width);
+    max-height: 784px;
+    flex-direction: column;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-white);
+    box-shadow: var(--box-shadow-sm);
+  }
+}
