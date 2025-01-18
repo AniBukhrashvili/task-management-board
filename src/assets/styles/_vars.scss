@@ -2,15 +2,18 @@
   //Colors
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-gray-800: #1E293B;
+  --color-gray-800: #1e293b;
   --color-gray-700: #2d3648;
   --color-gray-600: #475569;
-  --color-gray-500: #94A3B8;
-  --color-gray-200: #EEF2FF;
-  --color-gray-100: #E2E8F0;
-  --color-green-100: #22C55E;
-  --color-orange-200: #F59E0B;
-  --color-primary-200: #4F46E5;
+  --color-gray-500: #94a3b8;
+  --color-gray-400: #f8fafc;
+  --color-gray-300: #cbd5e1;
+  --color-gray-250: #e0e7ff;
+  --color-gray-200: #eef2ff;
+  --color-gray-100: #e2e8f0;
+  --color-green-100: #22c55e;
+  --color-orange-200: #f59e0b;
+  --color-primary-200: #4f46e5;
 
   //Font Sizes
   --font-size-ui-30: 30px;
@@ -39,6 +42,11 @@
   --transition-base: 0.3s ease;
 
   //Container Sizes
-  --container-padding-x: 16px;
+  --container-padding-x: 32px;
   --container-width: 1396px;
+
+  @media (max-width: 768px) {
+    --font-size-ui-30: 26px;
+    --container-padding-x: 16px;
+  }
 }

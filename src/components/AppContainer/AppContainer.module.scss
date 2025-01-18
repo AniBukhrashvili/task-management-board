@@ -1,7 +1,6 @@
 .AppContainer {
-    width: 100%;
-    max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
-    padding: 0 var(--container-padding-x);
-    margin-right: auto;
-    margin-left: auto;
-  }
+  width: 100%;
+  padding: 0 var(--container-padding-x);
+  margin-right: auto;
+  margin-left: auto;
+}

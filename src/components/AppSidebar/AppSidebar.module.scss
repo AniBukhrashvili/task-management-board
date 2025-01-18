@@ -1,2 +1,38 @@
-.AppSidebar{
+.AppSidebar {
+  display: none;
+
+  @media (min-width: 768px) {
+    width: 80px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    border-right: 1px solid var(--color-gray-100);
+
+    &__Menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    &__MenuItem {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+    }
+
+    &__Bottom {
+      display: flex;
+      justify-content: center;
+    }
+  }
 }

@@ -1,0 +1,43 @@
+.AppButton {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  background: transparent;
+  margin: 0;
+  padding: 16px;
+  outline: 0;
+  transition: color var(--transition-base),
+    background-color var(--transition-base), border-color var(--transition-base);
+  cursor: pointer;
+
+  &--Primary {
+    color: var(--color-white);
+    background-color: var(--color-primary-200);
+
+    &:hover {
+      color: var(--color-primary-200);
+      background-color: var(--color-white);
+      border-color: var(--color-primary-200);
+    }
+  }
+
+  &--Secondary {
+    color: var(--color-primary-200);
+    background-color: var(--color-white);
+    border-color: var(--color-primary-200);
+
+    &:hover {
+      color: var(--color-white);
+      background-color: var(--color-primary-200);
+    }
+  }
+
+  &__Body {
+    display: flex;
+    font-size: var(--font-size-ui-16);
+  }
+}
