@@ -13,7 +13,9 @@
   --color-gray-100: #e2e8f0;
   --color-green-100: #22c55e;
   --color-orange-200: #f59e0b;
+  --color-red-200: #ff1010;
   --color-primary-200: #4f46e5;
+  --color-primary-300: #352be4;
 
   --color-additional-gray-o3: rgba(21, 18, 82, 0.3);
 
@@ -36,6 +38,7 @@
   --font-weight-bold: 700;
 
   //Border Radiuses
+  --border-radius-2xs: 8px;
   --border-radius-xs: 16px;
   --border-radius-sm: 24px;
   --border-radius-md: 32px;
@@ -53,13 +56,19 @@
   --container-width: 1396px;
 
   //Modal
-  --modal-max-width: 760px;
-  --modal-header-padding: 12px 60px 24px;
-  --modal-content-padding: 0 60px;
-  --modal-actions-padding: 24px 60px;
+  --modal-max-width: 720px;
+  --modal-header-padding: 12px 42px 20px;
+  --modal-content-padding: 0 42px;
+  --modal-actions-padding: 24px 42px;
 
   @media (max-width: 1024px) {
     --font-size-ui-30: 26px;
     --container-padding-x: 16px;
+  }
+
+  @media (max-width: 768px) {
+    --modal-header-padding: 12px 32px 20px;
+    --modal-content-padding: 0 32px;
+    --modal-actions-padding: 24px 32px;
   }
 }

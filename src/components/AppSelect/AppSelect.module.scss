@@ -1,0 +1,110 @@
+.AppSelect {
+  position: relative;
+
+  &__Label {
+    display: block;
+    color: var(--color-gray-800);
+    font-size: var(--font-size-ui-14);
+    margin-bottom: 6px;
+  }
+
+  &__Trigger {
+    width: 120px;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--border-radius-2xs);
+    background-color: var(--color-white);
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__Body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  &__Placeholder {
+    color: var(--color-black);
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__Icon {
+    display: flex;
+    color: var(--color-black);
+
+    &--Active {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__HelperText {
+    display: flex;
+    gap: 4px;
+    color: var(--color-gray-800);
+    font-size: var(--font-size-ui-14);
+    margin-top: 8px;
+
+    &--Error {
+      color: var(--color-red-200);
+    }
+  }
+}
+
+.AppSelectDropdown {
+  position: absolute;
+  top: 62px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-gray-100);
+  border-radius: var(--border-radius-2xs);
+  background-color: var(--color-white);
+  z-index: 2000;
+
+  &__Empty {
+    padding: 8px;
+    text-align: center;
+    font-size: var(--font-size-ui-14);
+  }
+}
+
+.AppSelectDropdownOption {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid var(--color-gray-100);
+  cursor: pointer;
+  outline: 0;
+  text-align: left;
+  color: var(--color-gray-900);
+  font-size: 14px;
+  line-height: normal;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: var(--color-gray-200);
+
+    &:first-child {
+      border-radius: var(--border-radius-2xs) var(--border-radius-2xs) 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 var(--border-radius-2xs) var(--border-radius-2xs);
+    }
+  }
+}

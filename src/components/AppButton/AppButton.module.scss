@@ -19,9 +19,8 @@
     background-color: var(--color-primary-200);
 
     &:hover {
-      color: var(--color-primary-200);
-      background-color: var(--color-white);
-      border-color: var(--color-primary-200);
+      background-color: var(--color-primary-300);
+      border-color: var(--color-primary-300);
     }
   }
 
@@ -31,8 +30,7 @@
     border-color: var(--color-primary-200);
 
     &:hover {
-      color: var(--color-white);
-      background-color: var(--color-primary-200);
+      background-color: var(--color-gray-200);
     }
   }
 
