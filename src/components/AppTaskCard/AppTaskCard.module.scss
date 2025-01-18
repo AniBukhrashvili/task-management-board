@@ -1,0 +1,38 @@
+.AppTaskCard {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-gray-100);
+  background: var(--color-white);
+  box-shadow: var(--box-shadow-sm);
+  padding: 16px;
+  margin-bottom: 16px;
+
+  &__Title {
+    color: var(--color-gray-800);
+    font-family: var(--font-family-bold);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-ui-18);
+    margin-bottom: 16px;
+  }
+
+  &__Desc {
+    color: var(--color-gray-600);
+    font-size: var(--font-size-ui-14);
+    margin-bottom: 16px;
+  }
+
+  &__Date {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    font-size: var(--font-size-ui-14);
+
+    span {
+      display: flex;
+      width: 16px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+.AppTaskColumn {
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-gray-100);
+  background: var(--color-gray-400);
+  padding: 16px;
+
+  &__Status {
+    position: relative;
+    color: var(--color-gray-800);
+    font-size: 20px;
+    font-style: normal;
+    font-family: var(--font-family-bold);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.2px;
+    margin-bottom: 16px;
+    padding-left: 16px;
+
+    &::before {
+      position: absolute;
+      content: "";
+      top: 50%;
+      left: 8px;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: var(--border-radius-half);
+      background-color: var(--color-primary-200);
+      z-index: 1;
+    }
+
+    &--InProgress {
+      &::before {
+        background-color: var(--color-orange-200);
+      }
+    }
+
+    &--Completed {
+      &::before {
+        background-color: var(--color-green-100);
+      }
+    }
+  }
+}
