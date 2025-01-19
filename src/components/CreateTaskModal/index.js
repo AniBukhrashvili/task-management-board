@@ -5,8 +5,8 @@ import AppModalActions from "../AppModal/AppModalActions";
 import AppButton from "../AppButton";
 import AppInput from "../AppInput";
 import AppTextarea from "../AppTextarea";
-import styles from "./CreateTaskModal.module.scss";
 import AppSelect from "../AppSelect";
+import styles from "./CreateTaskModal.module.scss";
 
 const statuses = [
   { value: "todo", name: "To Do" },
