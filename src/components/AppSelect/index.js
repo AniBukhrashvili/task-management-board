@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useOutsideClick } from "../../services/outsideClick";
 import styles from "./AppSelect.module.scss";
 
-const AppSelectDropDown = ({ options = [], onSelect, agentClick }) => {
+const AppSelectDropDown = ({ options = [], onSelect }) => {
   const _onClick = (_value) => {
     onSelect(_value);
   };
@@ -16,7 +16,7 @@ const AppSelectDropDown = ({ options = [], onSelect, agentClick }) => {
             key={index}
             className={styles.AppSelectDropdownOption}
             type="button"
-            onClick={() => _onClick(option.id)}
+            onClick={() => _onClick(option.value)}
           >
             {option.name}
           </button>
@@ -58,29 +58,23 @@ export default function AppSelect({
   };
 
   const _onSelect = (_value, _name) => {
-    const selectedOption = options.find((option) => option.id === _value);
+    const selectedOption = options.find((option) => option.value === _value);
 
     setActiveOption(selectedOption ? selectedOption.name : placeholder);
     onSelect && onSelect(_value);
-    reset();
   };
 
   useOutsideClick(appSelectEl, () => {
     reset();
   });
 
-  useEffect(() => {
-    if (value) {
-      const selectedOption = options.find((option) => option.id === value);
-      setActiveOption(selectedOption ? selectedOption.name : placeholder);
-    }
-  }, [value, options, placeholder]);
-
   return (
     <div ref={appSelectEl} className={styles.AppSelect}>
       <label className={styles.AppSelect__Label}>{label}</label>
       <button
-        className={styles.AppSelect__Trigger}
+        className={classNames(styles.AppSelect__Trigger, {
+          [styles["AppSelect__Trigger--Error"]]: error,
+        })}
         type="button"
         onClick={toggleDropdown}
       >

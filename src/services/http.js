@@ -4,6 +4,9 @@ export const http = (method) => {
       fetch(url, {
         method: method.toUpperCase(),
         body: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
       }).then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

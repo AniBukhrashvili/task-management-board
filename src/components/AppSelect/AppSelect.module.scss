@@ -20,6 +20,10 @@
     background-color: var(--color-white);
     outline: none;
     cursor: pointer;
+
+    &--Error {
+      border-color: var(--color-red-200);
+    }
   }
 
   &__Body {

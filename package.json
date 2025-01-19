@@ -14,7 +14,8 @@
     "react-scripts": "5.0.1",
     "sass": "^1.83.4",
     "sass-loader": "^16.0.4",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "yup": "^1.6.1"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"node server.js\"",

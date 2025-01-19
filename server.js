@@ -19,6 +19,18 @@ app.get("/tasks", async (req, res) => {
   res.json(tasks);
 });
 
+app.post("/create-task", async (req, res) => {
+  const { status, title, description, dueDate } = req.body;
+  if (!status || !title || !dueDate) {
+    res
+      .status(400)
+      .json({ message: "Status, title and due date are required fields!" });
+    return;
+  }
+  const task = await taskModel.create({ status, title, description, dueDate });
+  res.status(201).json({ message: "Task Created Successfully", data: task });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
