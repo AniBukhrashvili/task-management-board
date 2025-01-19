@@ -5,6 +5,10 @@
   box-shadow: var(--box-shadow-sm);
   padding: 16px;
   margin-bottom: 16px;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__Title {
     color: var(--color-gray-800);
