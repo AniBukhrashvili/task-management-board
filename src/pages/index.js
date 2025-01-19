@@ -9,7 +9,7 @@ import { getTasksRequest } from "../api/getTasks";
 import styles from "./HomePage.module.scss";
 
 export default function HomePage() {
-  const [tasks, setTasks] = useState();
+  const [tasks, setTasks] = useState([]);
 
   const fetchTask = async () => {
     const res = await getTasksRequest();
@@ -20,7 +20,14 @@ export default function HomePage() {
     fetchTask();
   }, []);
 
-  console.log(tasks);
+  const taskGroups = tasks.reduce((groups, task) => {
+    if (!groups[task.status]) {
+      groups[task.status] = [];
+    }
+    groups[task.status].push(task);
+    return groups;
+  }, {});
+
   return (
     <AppLayout>
       <AppBreadcrumbs />
@@ -28,19 +35,13 @@ export default function HomePage() {
       <main>
         <AppContainer>
           <div className={styles.HomePage__Tasks}>
-            <AppTaskColumn status="todo">
-              <AppTaskCard />
-              <AppTaskCard />
-              <AppTaskCard />
-              <AppTaskCard />
-            </AppTaskColumn>
-            <AppTaskColumn status="inprogress">
-              <AppTaskCard />
-            </AppTaskColumn>
-            <AppTaskColumn status="done">
-              <AppTaskCard />
-              <AppTaskCard />
-            </AppTaskColumn>
+            {["todo", "inprogress", "done"].map((status) => (
+              <AppTaskColumn key={status} status={status}>
+                {taskGroups[status]?.map((task) => (
+                  <AppTaskCard key={task._id} task={task} />
+                ))}
+              </AppTaskColumn>
+            ))}
           </div>
         </AppContainer>
       </main>

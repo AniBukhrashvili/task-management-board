@@ -12,13 +12,14 @@ import { createTaskRequest } from "../../api/createTask";
 import styles from "./CreateTaskModal.module.scss";
 
 const statuses = [
-  { id: 1, value: "todo", name: "To Do" },
-  { id: 2, value: "inprogress", name: "In Progress" },
-  { id: 3, value: "done", name: "Done" },
+  { value: "todo", name: "To Do" },
+  { value: "inprogress", name: "In Progress" },
+  { value: "done", name: "Done" },
 ];
 
 const validationSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
+  description: yup.string(),
   status: yup.string().required("Status is required"),
   dueDate: yup.string().required("Due date is required"),
 });
@@ -97,14 +98,8 @@ export default function CreateTaskModal({
     const isValid = await validateForm();
     if (!isValid) return;
 
-    const formattedDueDate = new Date(taskData.dueDate).toISOString();
-    const formattedData = {
-      ...taskData,
-      dueDate: formattedDueDate,
-    };
-
     try {
-      await createTaskRequest(formattedData);
+      await createTaskRequest(taskData);
       setShowCreateTaskModal(false);
     } catch (error) {
       console.error("Error creating task:", error.message);

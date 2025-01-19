@@ -1,10 +1,20 @@
 import styles from "./AppTaskCard.module.scss";
 
-export default function AppTaskCard({ status }) {
+export default function AppTaskCard({ task }) {
+  const formatDate = (date) => {
+    const formattedDate = new Date(date);
+    const month = formattedDate.getMonth() + 1;
+    const day = formattedDate.getDate();
+    const year = formattedDate.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+
   return (
     <div className={styles.AppTaskCard}>
-      <div className={styles.AppTaskCard__Title}>title</div>
-      <div className={styles.AppTaskCard__Desc}>description</div>
+      <div className={styles.AppTaskCard__Title}>{task.title}</div>
+      {task.description && (
+        <div className={styles.AppTaskCard__Desc}>{task.description}</div>
+      )}
       <div className={styles.AppTaskCard__Date}>
         <span>
           <svg
@@ -23,7 +33,7 @@ export default function AppTaskCard({ status }) {
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
         </span>
-        <p>due date</p>
+        <p>{formatDate(task.dueDate)}</p>
       </div>
     </div>
   );
