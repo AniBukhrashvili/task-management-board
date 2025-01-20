@@ -6,10 +6,13 @@ import AppTaskCard from "../components/AppTaskCard";
 import AppTaskColumn from "../components/AppTaskColumn";
 import AppLayout from "../layout/AppLayout";
 import { getTasksRequest } from "../api/getTasks";
+import UpdateTaskModal from "../components/UpdateTaskModal";
 import styles from "./HomePage.module.scss";
 
 export default function HomePage() {
   const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchTask = async () => {
     const res = await getTasksRequest();
@@ -19,6 +22,16 @@ export default function HomePage() {
   useEffect(() => {
     fetchTask();
   }, []);
+
+  const handleCardClick = (task) => {
+    setSelectedTask(task);
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    setSelectedTask(null);
+  };
 
   const taskGroups = tasks.reduce((groups, task) => {
     if (!groups[task.status]) {
@@ -38,13 +51,21 @@ export default function HomePage() {
             {["todo", "inprogress", "done"].map((status) => (
               <AppTaskColumn key={status} status={status}>
                 {taskGroups[status]?.map((task) => (
-                  <AppTaskCard key={task._id} task={task} />
+                  <AppTaskCard
+                    key={task._id}
+                    task={task}
+                    onClick={() => handleCardClick(task)}
+                  />
                 ))}
               </AppTaskColumn>
             ))}
           </div>
         </AppContainer>
       </main>
+
+      {showModal && (
+        <UpdateTaskModal task={selectedTask} onClose={handleModalClose} />
+      )}
     </AppLayout>
   );
 }

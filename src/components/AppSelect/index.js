@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutsideClick } from "../../services/outsideClick";
 import styles from "./AppSelect.module.scss";
 
@@ -67,6 +67,11 @@ export default function AppSelect({
   useOutsideClick(appSelectEl, () => {
     reset();
   });
+
+  useEffect(() => {
+    const selectedOption = options.find((option) => option.value === value);
+    setActiveOption(selectedOption ? selectedOption.name : placeholder);
+  }, [value, options, placeholder]);
 
   return (
     <div ref={appSelectEl} className={styles.AppSelect}>

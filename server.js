@@ -7,6 +7,8 @@ connectDB();
 const app = express();
 const PORT = 5001;
 
+const { isValidObjectId } = require("mongoose");
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -29,6 +31,22 @@ app.post("/create-task", async (req, res) => {
   }
   const task = await taskModel.create({ status, title, description, dueDate });
   res.status(201).json({ message: "Task Created Successfully", data: task });
+});
+
+app.put("/update-task", async (req, res) => {
+  const { id } = req.body;
+  if (!isValidObjectId) {
+    res.status(400).json({ message: "Wrong MongoDB ID Is Provided!" });
+    return;
+  }
+  const updatedTask = await taskModel.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+  if (!updatedTask) {
+    res.status(404).json({ message: "Task Cant Be Updated!" });
+    return;
+  }
+  res.status(201).json(updatedTask);
 });
 
 app.listen(PORT, () => {

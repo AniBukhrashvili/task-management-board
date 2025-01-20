@@ -1,15 +1,15 @@
 import { useState } from "react";
 import * as yup from "yup";
-import AppModal from "../AppModal";
-import AppModalHeader from "../AppModal/AppModalHeader";
-import AppModalContent from "../AppModal/AppModalContent";
-import AppModalActions from "../AppModal/AppModalActions";
 import AppButton from "../AppButton";
 import AppInput from "../AppInput";
-import AppTextarea from "../AppTextarea";
+import AppModal from "../AppModal";
+import AppModalActions from "../AppModal/AppModalActions";
+import AppModalContent from "../AppModal/AppModalContent";
+import AppModalHeader from "../AppModal/AppModalHeader";
 import AppSelect from "../AppSelect";
-import { createTaskRequest } from "../../api/createTask";
-import styles from "./CreateTaskModal.module.scss";
+import AppTextarea from "../AppTextarea";
+import styles from "./UpdateTaskModal.module.scss";
+import { updateTaskRequest } from "../../api/updateTask";
 
 const statuses = [
   { value: "todo", name: "To Do" },
@@ -24,15 +24,13 @@ const validationSchema = yup.object().shape({
   dueDate: yup.string().required("Due date is required"),
 });
 
-export default function CreateTaskModal({
-  showCreateTaskModal,
-  setShowCreateTaskModal,
-}) {
+export default function UpdateTaskModal({ task, onClose }) {
   const [taskData, setTaskData] = useState({
-    status: "",
-    title: "",
-    description: "",
-    dueDate: "",
+    id: task._id,
+    status: task.status,
+    title: task.title,
+    description: task.description,
+    dueDate: task.dueDate,
   });
   const [errors, setErrors] = useState({});
 
@@ -99,23 +97,18 @@ export default function CreateTaskModal({
     if (!isValid) return;
 
     try {
-      const response = await createTaskRequest(taskData);
-      setShowCreateTaskModal(false);
+      await updateTaskRequest(taskData);
+      onClose();
     } catch (error) {
-      console.error("Error creating task:", error.message);
+      console.error("Error updating task:", error.message);
     }
   };
 
   return (
-    <AppModal
-      isVisible={showCreateTaskModal}
-      onChange={() => setShowCreateTaskModal(!showCreateTaskModal)}
-    >
-      <AppModalHeader onClose={() => setShowCreateTaskModal(false)}>
-        Create
-      </AppModalHeader>
+    <AppModal isVisible={true} onChange={onClose}>
+      <AppModalHeader onClose={onClose}>Update Task</AppModalHeader>
       <AppModalContent>
-        <form className={styles.CreateTaskModal__Form} onSubmit={handleSubmit}>
+        <form className={styles.UpdateTaskModal__Form} onSubmit={handleSubmit}>
           <AppSelect
             name="status"
             label="Status"
@@ -136,26 +129,24 @@ export default function CreateTaskModal({
             label="Description"
             value={taskData.description}
             onChange={handleInputChange}
+            error={errors.description}
           />
           <AppInput
             name="dueDate"
             label="Due Date"
             type="date"
-            value={taskData.dueDate}
+            value={taskData.dueDate.split("T")[0]}
             onChange={handleInputChange}
             error={errors.dueDate}
           />
         </form>
       </AppModalContent>
       <AppModalActions>
-        <AppButton
-          variant="secondary"
-          onClick={() => setShowCreateTaskModal(false)}
-        >
+        <AppButton variant="secondary" onClick={onClose}>
           Cancel
         </AppButton>
         <AppButton variant="primary" onClick={handleSubmit}>
-          Create
+          Update
         </AppButton>
       </AppModalActions>
     </AppModal>

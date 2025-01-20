@@ -1,6 +1,6 @@
 import styles from "./AppTaskCard.module.scss";
 
-export default function AppTaskCard({ task }) {
+export default function AppTaskCard({ task, onClick }) {
   const formatDate = (date) => {
     const formattedDate = new Date(date);
     const month = formattedDate.getMonth() + 1;
@@ -10,7 +10,7 @@ export default function AppTaskCard({ task }) {
   };
 
   return (
-    <div className={styles.AppTaskCard}>
+    <div className={styles.AppTaskCard} onClick={onClick}>
       <div className={styles.AppTaskCard__Title}>{task.title}</div>
       {task.description && (
         <div className={styles.AppTaskCard__Desc}>{task.description}</div>
