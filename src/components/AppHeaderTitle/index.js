@@ -5,7 +5,7 @@ import AppContainer from "../AppContainer";
 import CreateTaskModal from "../CreateTaskModal";
 import styles from "./AppHeaderTitle.module.scss";
 
-export default function AppHeaderTitle() {
+export default function AppHeaderTitle({ onTaskCreate }) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -28,6 +28,7 @@ export default function AppHeaderTitle() {
         <CreateTaskModal
           showCreateTaskModal={isVisible}
           setShowCreateTaskModal={setIsVisible}
+          onTaskCreate={onTaskCreate}
         />
       )}
     </div>

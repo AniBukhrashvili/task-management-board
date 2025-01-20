@@ -21,7 +21,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchTask();
-  }, []);
+  }, [tasks]);
 
   const handleCardClick = (task) => {
     setSelectedTask(task);
@@ -31,6 +31,23 @@ export default function HomePage() {
   const handleModalClose = () => {
     setShowModal(false);
     setSelectedTask(null);
+  };
+
+  const handleTaskCreate = (newTask) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+  };
+
+  const handleTaskUpdate = (updatedTask) => {
+    setTasks((prevTasks) => {
+      if (updatedTask) {
+        return prevTasks.map((task) =>
+          task._id === updatedTask._id ? updatedTask : task
+        );
+      } else {
+        return prevTasks.filter((task) => task._id !== selectedTask._id);
+      }
+    });
+    handleModalClose();
   };
 
   const taskGroups = tasks.reduce((groups, task) => {
@@ -44,7 +61,7 @@ export default function HomePage() {
   return (
     <AppLayout>
       <AppBreadcrumbs />
-      <AppHeaderTitle />
+      <AppHeaderTitle onTaskCreate={handleTaskCreate} />
       <main>
         <AppContainer>
           <div className={styles.HomePage__Tasks}>
@@ -64,7 +81,11 @@ export default function HomePage() {
       </main>
 
       {showModal && (
-        <UpdateTaskModal task={selectedTask} onClose={handleModalClose} />
+        <UpdateTaskModal
+          task={selectedTask}
+          onClose={handleModalClose}
+          onTaskUpdate={handleTaskUpdate}
+        />
       )}
     </AppLayout>
   );

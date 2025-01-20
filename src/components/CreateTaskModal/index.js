@@ -27,6 +27,7 @@ const validationSchema = yup.object().shape({
 export default function CreateTaskModal({
   showCreateTaskModal,
   setShowCreateTaskModal,
+  onTaskCreate,
 }) {
   const [taskData, setTaskData] = useState({
     status: "",
@@ -100,6 +101,7 @@ export default function CreateTaskModal({
 
     try {
       const response = await createTaskRequest(taskData);
+      onTaskCreate(response);
       setShowCreateTaskModal(false);
     } catch (error) {
       console.error("Error creating task:", error.message);

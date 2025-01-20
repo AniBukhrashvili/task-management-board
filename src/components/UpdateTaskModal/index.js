@@ -25,7 +25,7 @@ const validationSchema = yup.object().shape({
   dueDate: yup.string().required("Due date is required"),
 });
 
-export default function UpdateTaskModal({ task, onClose }) {
+export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
   const [taskData, setTaskData] = useState({
     id: task._id,
     status: task.status,
@@ -98,7 +98,8 @@ export default function UpdateTaskModal({ task, onClose }) {
     if (!isValid) return;
 
     try {
-      await updateTaskRequest(taskData);
+      const response = await updateTaskRequest(taskData);
+      onTaskUpdate(response);
       onClose();
     } catch (error) {
       console.error("Error updating task:", error.message);
@@ -108,6 +109,7 @@ export default function UpdateTaskModal({ task, onClose }) {
   const handleDelete = async () => {
     try {
       await deleteTaskRequest({ id: taskData.id });
+      onTaskUpdate(null);
       onClose();
     } catch (error) {
       console.error("Error deleting task:", error.message);
