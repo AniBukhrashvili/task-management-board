@@ -8,8 +8,9 @@ import AppModalContent from "../AppModal/AppModalContent";
 import AppModalHeader from "../AppModal/AppModalHeader";
 import AppSelect from "../AppSelect";
 import AppTextarea from "../AppTextarea";
-import styles from "./UpdateTaskModal.module.scss";
 import { updateTaskRequest } from "../../api/updateTask";
+import { deleteTaskRequest } from "../../api/deleteTask";
+import styles from "./UpdateTaskModal.module.scss";
 
 const statuses = [
   { value: "todo", name: "To Do" },
@@ -104,9 +105,20 @@ export default function UpdateTaskModal({ task, onClose }) {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteTaskRequest({ id: taskData.id });
+      onClose();
+    } catch (error) {
+      console.error("Error deleting task:", error.message);
+    }
+  };
+
   return (
     <AppModal isVisible={true} onChange={onClose}>
-      <AppModalHeader onClose={onClose}>Update Task</AppModalHeader>
+      <AppModalHeader onClose={onClose} onDelete={handleDelete}>
+        Update Task
+      </AppModalHeader>
       <AppModalContent>
         <form className={styles.UpdateTaskModal__Form} onSubmit={handleSubmit}>
           <AppSelect

@@ -49,6 +49,21 @@ app.put("/update-task", async (req, res) => {
   res.status(201).json(updatedTask);
 });
 
+app.delete("/delete-task", async (req, res) => {
+  const { id } = req.body;
+  if (!isValidObjectId) {
+    res.status(400).json({ message: "Wrong MongoDB ID Is Provided!" });
+    return;
+  }
+
+  const deletedTask = await taskModel.findByIdAndDelete(id);
+  if (!deletedTask) {
+    res.status(404).json({ message: "Task Not Found!" });
+    return;
+  }
+  res.json(deletedTask);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
