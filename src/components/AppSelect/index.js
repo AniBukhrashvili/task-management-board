@@ -3,13 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import { useOutsideClick } from "../../services/outsideClick";
 import styles from "./AppSelect.module.scss";
 
-const AppSelectDropDown = ({ options = [], onSelect }) => {
+const AppSelectDropDown = ({ options = [], onSelect, onClose }) => {
   const _onClick = (_value) => {
     onSelect(_value);
+    onClose && onClose();
   };
 
   return (
-    <div className={styles.AppSelectDropdown}>
+    <div
+      className={styles.AppSelectDropdown}
+      onClick={(e) => e.stopPropagation()}
+    >
       {options.length > 0 &&
         options.map((option, index) => (
           <button
@@ -122,6 +126,7 @@ export default function AppSelect({
           name={name}
           options={_options}
           onSelect={_onSelect}
+          onClose={reset}
         />
       )}
     </div>
