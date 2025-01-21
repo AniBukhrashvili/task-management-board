@@ -52,12 +52,20 @@ export default function HomePage() {
   };
 
   const moveTask = async (taskId, newStatus) => {
-    const taskToMove = tasks.find((task) => console.log(task));
-    const updatedTask = { ...taskToMove, status: newStatus };
     setTasks((prevTasks) =>
-      prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
+      prevTasks.map((task) =>
+        task._id === taskId ? { ...task, status: newStatus } : task
+      )
     );
-    await updateTaskRequest(updatedTask);
+
+    try {
+      await updateTaskRequest({
+        id: taskId,          
+        status: newStatus,   
+      });    
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+    }
   };
 
   const taskGroups = tasks.reduce((groups, task) => {

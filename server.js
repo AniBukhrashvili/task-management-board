@@ -30,18 +30,22 @@ app.post("/create-task", async (req, res) => {
     return;
   }
   const task = await taskModel.create({ status, title, description, dueDate });
-  res.status(201).json({ message: "Task Created Successfully", data: task });
+  res.status(200).json({ message: "Task Created Successfully", data: task });
 });
 
-app.put("/update-task", async (req, res) => {
-  const { id } = req.body;
-  if (!isValidObjectId) {
+app.put("/update-task/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body; 
+
+  if (!isValidObjectId(id)) { 
     res.status(400).json({ message: "Wrong MongoDB ID Is Provided!" });
     return;
   }
-  const updatedTask = await taskModel.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
+  const updatedTask = await taskModel.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true }
+  );
   if (!updatedTask) {
     res.status(404).json({ message: "Task Cant Be Updated!" });
     return;
@@ -49,9 +53,9 @@ app.put("/update-task", async (req, res) => {
   res.status(201).json(updatedTask);
 });
 
-app.delete("/delete-task", async (req, res) => {
-  const { id } = req.body;
-  if (!isValidObjectId) {
+app.delete("/delete-task/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) {
     res.status(400).json({ message: "Wrong MongoDB ID Is Provided!" });
     return;
   }
@@ -61,7 +65,7 @@ app.delete("/delete-task", async (req, res) => {
     res.status(404).json({ message: "Task Not Found!" });
     return;
   }
-  res.json(deletedTask);
+  res.status(200).json(deletedTask);
 });
 
 app.listen(PORT, () => {
