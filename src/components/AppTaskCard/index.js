@@ -1,3 +1,5 @@
+import { useDrag } from "react-dnd";
+import classNames from "classnames";
 import styles from "./AppTaskCard.module.scss";
 
 export default function AppTaskCard({ task, onClick }) {
@@ -9,8 +11,22 @@ export default function AppTaskCard({ task, onClick }) {
     return `${month}/${day}/${year}`;
   };
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "TASK",
+    item: { id: task._id, status: task.status },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+
   return (
-    <div className={styles.AppTaskCard} onClick={onClick}>
+    <div
+      ref={drag}
+      className={classNames(styles.AppTaskCard, {
+        [styles["AppTaskCard--Dragging"]]: isDragging,
+      })}
+      onClick={onClick}
+    >
       <div className={styles.AppTaskCard__Title}>{task.title}</div>
       {task.description && (
         <div className={styles.AppTaskCard__Desc}>{task.description}</div>

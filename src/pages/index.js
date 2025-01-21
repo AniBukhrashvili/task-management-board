@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import AppBreadcrumbs from "../components/AppBreadcrumbs";
 import AppContainer from "../components/AppContainer";
 import AppHeaderTitle from "../components/AppHeaderTitle";
 import AppTaskCard from "../components/AppTaskCard";
 import AppTaskColumn from "../components/AppTaskColumn";
+import UpdateTaskModal from "../components/UpdateTaskModal";
 import AppLayout from "../layout/AppLayout";
 import { getTasksRequest } from "../api/getTasks";
-import UpdateTaskModal from "../components/UpdateTaskModal";
+import { updateTaskRequest } from "../api/updateTask";
 import styles from "./HomePage.module.scss";
 
 export default function HomePage() {
@@ -21,7 +24,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchTask();
-  }, [tasks]);
+  }, []);
 
   const handleCardClick = (task) => {
     setSelectedTask(task);
@@ -38,16 +41,23 @@ export default function HomePage() {
   };
 
   const handleTaskUpdate = (updatedTask) => {
-    setTasks((prevTasks) => {
-      if (updatedTask) {
-        return prevTasks.map((task) =>
-          task._id === updatedTask._id ? updatedTask : task
-        );
-      } else {
-        return prevTasks.filter((task) => task._id !== selectedTask._id);
-      }
-    });
+    setTasks((prevTasks) =>
+      updatedTask
+        ? prevTasks.map((task) =>
+            task._id === updatedTask._id ? updatedTask : task
+          )
+        : prevTasks.filter((task) => task._id !== selectedTask._id)
+    );
     handleModalClose();
+  };
+
+  const moveTask = async (taskId, newStatus) => {
+    const taskToMove = tasks.find((task) => console.log(task));
+    const updatedTask = { ...taskToMove, status: newStatus };
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
+    );
+    await updateTaskRequest(updatedTask);
   };
 
   const taskGroups = tasks.reduce((groups, task) => {
@@ -63,21 +73,23 @@ export default function HomePage() {
       <AppBreadcrumbs />
       <AppHeaderTitle onTaskCreate={handleTaskCreate} />
       <main>
-        <AppContainer>
-          <div className={styles.HomePage__Tasks}>
-            {["todo", "inprogress", "done"].map((status) => (
-              <AppTaskColumn key={status} status={status}>
-                {taskGroups[status]?.map((task) => (
-                  <AppTaskCard
-                    key={task._id}
-                    task={task}
-                    onClick={() => handleCardClick(task)}
-                  />
-                ))}
-              </AppTaskColumn>
-            ))}
-          </div>
-        </AppContainer>
+        <DndProvider backend={HTML5Backend}>
+          <AppContainer>
+            <div className={styles.HomePage__Tasks}>
+              {["todo", "inprogress", "done"].map((status) => (
+                <AppTaskColumn key={status} status={status} moveTask={moveTask}>
+                  {taskGroups[status]?.map((task) => (
+                    <AppTaskCard
+                      key={task._id}
+                      task={task}
+                      onClick={() => handleCardClick(task)}
+                    />
+                  ))}
+                </AppTaskColumn>
+              ))}
+            </div>
+          </AppContainer>
+        </DndProvider>
       </main>
 
       {showModal && (
