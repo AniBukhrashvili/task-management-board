@@ -35,7 +35,6 @@ app.post("/create-task", async (req, res) => {
 
 app.put("/update-task/:id", async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body; 
 
   if (!isValidObjectId(id)) { 
     res.status(400).json({ message: "Wrong MongoDB ID Is Provided!" });
@@ -43,7 +42,7 @@ app.put("/update-task/:id", async (req, res) => {
   }
   const updatedTask = await taskModel.findByIdAndUpdate(
     id,
-    { status },
+    req.body,
     { new: true }
   );
   if (!updatedTask) {
