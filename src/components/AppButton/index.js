@@ -16,6 +16,7 @@ export default function AppButton({
       className={classnames(styles.AppButton, {
         [styles["AppButton--Primary"]]: variant === "primary",
         [styles["AppButton--Secondary"]]: variant === "secondary",
+        [styles["AppButton--Light"]]: variant === "light",
       })}
       aria-label={ariaLabel}
       disabled={disabled}

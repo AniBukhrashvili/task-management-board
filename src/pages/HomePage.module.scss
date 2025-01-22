@@ -1,11 +1,15 @@
 .HomePage {
   &__Tasks {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    left: 0;
+    bottom: 0;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
 
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  &__TasksWrapper {
+    display: flex;
   }
 }
