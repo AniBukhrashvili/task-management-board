@@ -7,6 +7,7 @@ import AppTaskCard from "../components/AppTaskCard";
 import AppTaskColumn from "../components/AppTaskColumn";
 import UpdateTaskModal from "../components/UpdateTaskModal";
 import AppButton from "../components/AppButton";
+import CreateColumnModal from "../components/CreateColumnModal";
 import AppLayout from "../layout/AppLayout";
 import { getTasksRequest } from "../api/getTasks";
 import { updateTaskRequest } from "../api/updateTask";
@@ -17,6 +18,13 @@ export default function HomePage() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAddingColumnModal, setShowAddingColumnModal] = useState(false);
+  const [customTaskColumns, setCustomTaskColumns] = useState([]);
+
+  useEffect(() => {
+    const addedColumns =
+      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
+    setCustomTaskColumns(addedColumns);
+  }, []);
 
   const fetchTask = async () => {
     const res = await getTasksRequest();
@@ -25,7 +33,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchTask();
-  }, []);
+  }, [tasks]);
 
   const handleCardClick = (task) => {
     setSelectedTask(task);
@@ -50,6 +58,15 @@ export default function HomePage() {
         : prevTasks.filter((task) => task._id !== selectedTask._id)
     );
     handleModalClose();
+  };
+
+  const handleAddColumn = (newColumn) => {
+    setCustomTaskColumns((prevColumns) => {
+      const updatedColumns = [...prevColumns, newColumn];
+      localStorage.setItem("customTaskColumns", JSON.stringify(updatedColumns));
+      return updatedColumns;
+    });
+    setShowAddingColumnModal(false);
   };
 
   const moveTask = async (taskId, newStatus) => {
@@ -85,8 +102,8 @@ export default function HomePage() {
         <DndProvider backend={HTML5Backend}>
           <div className={styles.HomePage__Tasks}>
             <div className={styles.HomePage__TasksWrapper}>
-              {["todo", "inprogress", "done"].map((status) => (
-                <>
+              {["todo", "inprogress", "done", ...customTaskColumns].map(
+                (status) => (
                   <AppTaskColumn
                     key={status}
                     status={status}
@@ -100,8 +117,8 @@ export default function HomePage() {
                       />
                     ))}
                   </AppTaskColumn>
-                </>
-              ))}
+                )
+              )}
               <AppButton
                 variant="light"
                 onClick={() => setShowAddingColumnModal(true)}
@@ -111,7 +128,7 @@ export default function HomePage() {
                     width="24"
                     height="24"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -136,7 +153,13 @@ export default function HomePage() {
         />
       )}
 
-      {showAddingColumnModal && <div>2342</div>}
+      {showAddingColumnModal && (
+        <CreateColumnModal
+          showCreateColumnModal={showAddingColumnModal}
+          setShowCreateColumnModal={setShowAddingColumnModal}
+          onAddColumn={handleAddColumn}
+        />
+      )}
     </AppLayout>
   );
 }

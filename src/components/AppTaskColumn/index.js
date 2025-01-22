@@ -30,7 +30,9 @@ export default function AppTaskColumn({ children, status, moveTask }) {
           ? "To Do"
           : status === "inprogress"
           ? "In Progress"
-          : "Done"}
+          : status === "done"
+          ? "Done"
+          : status}
       </div>
       {children}
     </div>
