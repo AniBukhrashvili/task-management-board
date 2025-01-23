@@ -13,11 +13,14 @@ export default function CreateColumnModal({
   onAddColumn,
 }) {
   const [columnTitle, setColumnTitle] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleCreate = () => {
     if (columnTitle.trim()) {
       onAddColumn(columnTitle.trim());
       setColumnTitle("");
+    } else {
+      setErrors({ status: "Column title is required" });
     }
   };
 
@@ -39,6 +42,7 @@ export default function CreateColumnModal({
             label="Column Title"
             value={columnTitle}
             onChange={(e) => setColumnTitle(e.target.value)}
+            error={errors.status}
           />
         </form>
       </AppModalContent>

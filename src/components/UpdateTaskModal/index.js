@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import AppButton from "../AppButton";
 import AppInput from "../AppInput";
@@ -115,6 +115,16 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
       console.error("Error deleting task:", error.message);
     }
   };
+
+  useEffect(() => {
+    const createdStatuses =
+      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
+    const structuredStatuses = createdStatuses.map((status) => ({
+      value: status.value || status,
+      name: status.name || status,
+    }));
+    statuses.push(...structuredStatuses);
+  }, []);
 
   return (
     <AppModal isVisible={true} onChange={onClose}>

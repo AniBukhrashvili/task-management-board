@@ -5,7 +5,7 @@ const taskModel = require("./src/models/task");
 
 connectDB();
 const app = express();
-const PORT = 5001;
+const PORT = 8000;
 
 const { isValidObjectId } = require("mongoose");
 
@@ -36,15 +36,13 @@ app.post("/create-task", async (req, res) => {
 app.put("/update-task/:id", async (req, res) => {
   const { id } = req.params;
 
-  if (!isValidObjectId(id)) { 
+  if (!isValidObjectId(id)) {
     res.status(400).json({ message: "Wrong MongoDB ID Is Provided!" });
     return;
   }
-  const updatedTask = await taskModel.findByIdAndUpdate(
-    id,
-    req.body,
-    { new: true }
-  );
+  const updatedTask = await taskModel.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
   if (!updatedTask) {
     res.status(404).json({ message: "Task Cant Be Updated!" });
     return;

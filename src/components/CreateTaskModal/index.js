@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import AppModal from "../AppModal";
 import AppModalHeader from "../AppModal/AppModalHeader";
@@ -107,6 +107,16 @@ export default function CreateTaskModal({
       console.error("Error creating task:", error.message);
     }
   };
+
+  useEffect(() => {
+    const createdStatuses =
+      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
+    const structuredStatuses = createdStatuses.map((status) => ({
+      value: status.value || status,
+      name: status.name || status,
+    }));
+    statuses.push(...structuredStatuses);
+  }, []);
 
   return (
     <AppModal
