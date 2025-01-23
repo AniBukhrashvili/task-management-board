@@ -33,7 +33,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchTask();
-  }, [tasks]);
+  }, []);
 
   const handleCardClick = (task) => {
     setSelectedTask(task);

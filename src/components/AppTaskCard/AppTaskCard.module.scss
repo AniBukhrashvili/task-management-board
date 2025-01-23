@@ -46,6 +46,19 @@
     }
   }
 
+  &__Bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__AssignedTo {
+    font-size: var(--font-size-ui-14);
+    border: 1px solid var(--color-gray-100);
+    background-color: var(--color-gray-400);
+    border-radius: var(--border-radius-xs);
+    padding: 8px;
+  }
+
   &--Dragging {
     opacity: 0.5;
   }

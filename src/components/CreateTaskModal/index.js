@@ -9,6 +9,7 @@ import AppInput from "../AppInput";
 import AppTextarea from "../AppTextarea";
 import AppSelect from "../AppSelect";
 import { createTaskRequest } from "../../api/createTask";
+import { getUsersRequest } from "../../api/getUsers";
 import styles from "./CreateTaskModal.module.scss";
 
 const statuses = [
@@ -22,6 +23,7 @@ const validationSchema = yup.object().shape({
   description: yup.string(),
   status: yup.string().required("Status is required"),
   dueDate: yup.string().required("Due date is required"),
+  assignedTo: yup.string(),
 });
 
 export default function CreateTaskModal({
@@ -34,8 +36,23 @@ export default function CreateTaskModal({
     title: "",
     description: "",
     dueDate: "",
+    assignedTo: "",
   });
   const [errors, setErrors] = useState({});
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = async () => {
+    const res = await getUsersRequest();
+    const structuredUsers = res.map((user) => ({
+      value: user._id,
+      name: user.name,
+    }));
+    setUsers(structuredUsers);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
@@ -128,6 +145,14 @@ export default function CreateTaskModal({
       </AppModalHeader>
       <AppModalContent>
         <form className={styles.CreateTaskModal__Form} onSubmit={handleSubmit}>
+          <AppSelect
+            name="assignedTo"
+            label="Assigned To"
+            options={users}
+            value={taskData.assignedTo}
+            onSelect={(value) => handleSelectChange("assignedTo", value)}
+            error={errors.assignedTo}
+          />
           <AppSelect
             name="status"
             label="Status"
