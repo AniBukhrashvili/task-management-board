@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import * as yup from "yup";
 import AppButton from "../AppButton";
 import AppInput from "../AppInput";
 import AppModal from "../AppModal";
@@ -11,6 +10,11 @@ import AppTextarea from "../AppTextarea";
 import { updateTaskRequest } from "../../api/updateTask";
 import { deleteTaskRequest } from "../../api/deleteTask";
 import { getUsersRequest } from "../../api/getUsers";
+import {
+  taskValidationSchema,
+  validateField,
+  validateFormData,
+} from "../../services/validation";
 import styles from "./UpdateTaskModal.module.scss";
 
 const statuses = [
@@ -18,14 +22,6 @@ const statuses = [
   { value: "inprogress", name: "In Progress" },
   { value: "done", name: "Done" },
 ];
-
-const validationSchema = yup.object().shape({
-  title: yup.string().required("Title is required"),
-  description: yup.string(),
-  status: yup.string().required("Status is required"),
-  dueDate: yup.string().required("Due date is required"),
-  assignedTo: yup.string(),
-});
 
 export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
   const [taskData, setTaskData] = useState({
@@ -60,18 +56,16 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
       [name]: value,
     });
 
-    try {
-      await validationSchema.validateAt(name, { ...taskData, [name]: value });
-      setErrors((prevErrors) => {
-        const { [name]: removedError, ...rest } = prevErrors;
-        return rest;
-      });
-    } catch (error) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: error.message,
-      }));
-    }
+    const error = await validateField(
+      taskValidationSchema,
+      name,
+      value,
+      taskData
+    );
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
   };
 
   const handleSelectChange = async (name, value) => {
@@ -80,32 +74,25 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
       [name]: value,
     });
 
-    try {
-      await validationSchema.validateAt(name, { ...taskData, [name]: value });
-      setErrors((prevErrors) => {
-        const { [name]: removedError, ...rest } = prevErrors;
-        return rest;
-      });
-    } catch (error) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: error.message,
-      }));
-    }
+    const error = await validateField(
+      taskValidationSchema,
+      name,
+      value,
+      taskData
+    );
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
   };
 
   const validateForm = async () => {
-    try {
-      await validationSchema.validate(taskData, { abortEarly: false });
-      return true;
-    } catch (validationErrors) {
-      const newErrors = validationErrors.inner.reduce((acc, error) => {
-        acc[error.path] = error.message;
-        return acc;
-      }, {});
-      setErrors(newErrors);
-      return false;
-    }
+    const validationErrors = await validateFormData(
+      taskValidationSchema,
+      taskData
+    );
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {

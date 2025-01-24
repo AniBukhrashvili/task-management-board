@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import * as yup from "yup";
 import AppModal from "../AppModal";
 import AppModalHeader from "../AppModal/AppModalHeader";
 import AppModalContent from "../AppModal/AppModalContent";
@@ -10,6 +9,11 @@ import AppTextarea from "../AppTextarea";
 import AppSelect from "../AppSelect";
 import { createTaskRequest } from "../../api/createTask";
 import { getUsersRequest } from "../../api/getUsers";
+import {
+  taskValidationSchema,
+  validateField,
+  validateFormData,
+} from "../../services/validation";
 import styles from "./CreateTaskModal.module.scss";
 
 const statuses = [
@@ -17,14 +21,6 @@ const statuses = [
   { value: "inprogress", name: "In Progress" },
   { value: "done", name: "Done" },
 ];
-
-const validationSchema = yup.object().shape({
-  title: yup.string().required("Title is required"),
-  description: yup.string(),
-  status: yup.string().required("Status is required"),
-  dueDate: yup.string().required("Due date is required"),
-  assignedTo: yup.string(),
-});
 
 export default function CreateTaskModal({
   showCreateTaskModal,
@@ -62,18 +58,16 @@ export default function CreateTaskModal({
       [name]: value,
     });
 
-    try {
-      await validationSchema.validateAt(name, { ...taskData, [name]: value });
-      setErrors((prevErrors) => {
-        const { [name]: removedError, ...rest } = prevErrors;
-        return rest;
-      });
-    } catch (error) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: error.message,
-      }));
-    }
+    const error = await validateField(
+      taskValidationSchema,
+      name,
+      value,
+      taskData
+    );
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
   };
 
   const handleSelectChange = async (name, value) => {
@@ -82,32 +76,25 @@ export default function CreateTaskModal({
       [name]: value,
     });
 
-    try {
-      await validationSchema.validateAt(name, { ...taskData, [name]: value });
-      setErrors((prevErrors) => {
-        const { [name]: removedError, ...rest } = prevErrors;
-        return rest;
-      });
-    } catch (error) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: error.message,
-      }));
-    }
+    const error = await validateField(
+      taskValidationSchema,
+      name,
+      value,
+      taskData
+    );
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
   };
 
   const validateForm = async () => {
-    try {
-      await validationSchema.validate(taskData, { abortEarly: false });
-      return true;
-    } catch (validationErrors) {
-      const newErrors = validationErrors.inner.reduce((acc, error) => {
-        acc[error.path] = error.message;
-        return acc;
-      }, {});
-      setErrors(newErrors);
-      return false;
-    }
+    const validationErrors = await validateFormData(
+      taskValidationSchema,
+      taskData
+    );
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
@@ -117,7 +104,10 @@ export default function CreateTaskModal({
     if (!isValid) return;
 
     try {
-      const response = await createTaskRequest(taskData);
+      const response = await createTaskRequest({
+        ...taskData,
+        assignedTo: taskData.assignedTo || null,
+      });
       onTaskCreate(response);
       setShowCreateTaskModal(false);
     } catch (error) {
@@ -173,6 +163,7 @@ export default function CreateTaskModal({
             label="Description"
             value={taskData.description}
             onChange={handleInputChange}
+            error={errors.description}
           />
           <AppInput
             name="dueDate"
