@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import AppModal from "../AppModal";
 import AppModalHeader from "../AppModal/AppModalHeader";
 import AppModalContent from "../AppModal/AppModalContent";
@@ -14,6 +14,7 @@ import {
   validateField,
   validateFormData,
 } from "../../services/validation";
+import { formReducer, INITIAL_STATE } from "../../services/reducer";
 import styles from "./CreateTaskModal.module.scss";
 
 const statuses = [
@@ -27,13 +28,7 @@ export default function CreateTaskModal({
   setShowCreateTaskModal,
   onTaskCreate,
 }) {
-  const [taskData, setTaskData] = useState({
-    status: "",
-    title: "",
-    description: "",
-    dueDate: "",
-    assignedTo: "",
-  });
+  const [taskData, dispatch] = useReducer(formReducer, INITIAL_STATE);
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
 
@@ -53,9 +48,9 @@ export default function CreateTaskModal({
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
 
-    setTaskData({
-      ...taskData,
-      [name]: value,
+    dispatch({
+      type: "UPDATE_FIELD",
+      payload: { name, value },
     });
 
     const error = await validateField(
@@ -71,9 +66,9 @@ export default function CreateTaskModal({
   };
 
   const handleSelectChange = async (name, value) => {
-    setTaskData({
-      ...taskData,
-      [name]: value,
+    dispatch({
+      type: "UPDATE_FIELD",
+      payload: { name, value },
     });
 
     const error = await validateField(
@@ -104,10 +99,8 @@ export default function CreateTaskModal({
     if (!isValid) return;
 
     try {
-      const response = await createTaskRequest({
-        ...taskData,
-        assignedTo: taskData.assignedTo || null,
-      });
+      const response = await createTaskRequest(taskData);
+      dispatch({ type: "CREATE_TASK", payload: response });
       onTaskCreate(response);
       setShowCreateTaskModal(false);
     } catch (error) {

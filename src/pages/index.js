@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import AppBreadcrumbs from "../components/AppBreadcrumbs";
@@ -11,10 +11,11 @@ import CreateColumnModal from "../components/CreateColumnModal";
 import AppLayout from "../layout/AppLayout";
 import { getTasksRequest } from "../api/getTasks";
 import { updateTaskRequest } from "../api/updateTask";
+import { formReducer } from "../services/reducer";
 import styles from "./HomePage.module.scss";
 
 export default function HomePage() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, dispatch] = useReducer(formReducer, []);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAddingColumnModal, setShowAddingColumnModal] = useState(false);
@@ -26,12 +27,12 @@ export default function HomePage() {
     setCustomTaskColumns(addedColumns);
   }, []);
 
-  const fetchTask = async () => {
-    const res = await getTasksRequest();
-    setTasks(res);
-  };
-
   useEffect(() => {
+    const fetchTask = async () => {
+      const res = await getTasksRequest();
+      dispatch({ type: "INITIALIZE_TASKS", payload: res });
+    };
+
     fetchTask();
   }, []);
 
@@ -46,17 +47,11 @@ export default function HomePage() {
   };
 
   const handleTaskCreate = (newTask) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    dispatch({ type: "CREATE_TASK", payload: newTask });
   };
 
   const handleTaskUpdate = (updatedTask) => {
-    setTasks((prevTasks) =>
-      updatedTask
-        ? prevTasks.map((task) =>
-            task._id === updatedTask._id ? updatedTask : task
-          )
-        : prevTasks.filter((task) => task._id !== selectedTask._id)
-    );
+    dispatch({ type: "UPDATE_TASK", payload: updatedTask });
     handleModalClose();
   };
 
@@ -70,11 +65,10 @@ export default function HomePage() {
   };
 
   const moveTask = async (taskId, newStatus) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task._id === taskId ? { ...task, status: newStatus } : task
-      )
-    );
+    dispatch({
+      type: "MOVE_TASK",
+      payload: { taskId, newStatus },
+    });
 
     try {
       await updateTaskRequest({

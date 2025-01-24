@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import AppButton from "../AppButton";
 import AppInput from "../AppInput";
 import AppModal from "../AppModal";
@@ -15,6 +15,7 @@ import {
   validateField,
   validateFormData,
 } from "../../services/validation";
+import { formReducer } from "../../services/reducer";
 import styles from "./UpdateTaskModal.module.scss";
 
 const statuses = [
@@ -24,7 +25,7 @@ const statuses = [
 ];
 
 export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
-  const [taskData, setTaskData] = useState({
+  const [taskData, dispatch] = useReducer(formReducer, {
     id: task._id,
     status: task.status,
     title: task.title,
@@ -32,6 +33,7 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
     dueDate: task.dueDate,
     assignedTo: task.assignedTo,
   });
+
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
 
@@ -50,10 +52,9 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
 
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
-
-    setTaskData({
-      ...taskData,
-      [name]: value,
+    dispatch({
+      type: "UPDATE_FIELD",
+      payload: { name, value },
     });
 
     const error = await validateField(
@@ -69,9 +70,9 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
   };
 
   const handleSelectChange = async (name, value) => {
-    setTaskData({
-      ...taskData,
-      [name]: value,
+    dispatch({
+      type: "UPDATE_FIELD",
+      payload: { name, value },
     });
 
     const error = await validateField(
@@ -103,6 +104,10 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
 
     try {
       const response = await updateTaskRequest(taskData);
+      dispatch({
+        type: "UPDATE_TASK",
+        payload: { response },
+      });
       onTaskUpdate(response);
       onClose();
     } catch (error) {

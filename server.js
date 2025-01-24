@@ -20,7 +20,7 @@ app.use(express.json());
 app.get("/tasks", async (req, res) => {
   try {
     const tasks = await taskModel.find();
-    res.json(tasks);
+    res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: "Failed To Fetch Tasks", error });
   }
@@ -49,7 +49,7 @@ app.post("/create-task", async (req, res) => {
       assignedTo,
     });
 
-    res.status(200).json({ message: "Task Created Successfully", data: task });
+    res.status(200).json(task);
   } catch (error) {
     res.status(500).json({ message: "Failed To Create Task", error });
   }
