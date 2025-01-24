@@ -18,7 +18,7 @@ import {
 import { formReducer } from "../../services/reducer";
 import styles from "./UpdateTaskModal.module.scss";
 
-const statuses = [
+const defaultStatuses = [
   { value: "todo", name: "To Do" },
   { value: "inprogress", name: "In Progress" },
   { value: "done", name: "Done" },
@@ -36,6 +36,7 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
 
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
+  const [statuses, setStatuses] = useState(defaultStatuses);
 
   const fetchUsers = async () => {
     const res = await getUsersRequest();
@@ -48,6 +49,23 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
 
   useEffect(() => {
     fetchUsers();
+
+    const createdStatuses =
+      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
+    const structuredStatuses = createdStatuses.map((status) => ({
+      value: status.value || status,
+      name: status.name || status,
+    }));
+
+    const mergedStatuses = [
+      ...defaultStatuses,
+      ...structuredStatuses.filter(
+        (customStatus) =>
+          !defaultStatuses.some((status) => status.value === customStatus.value)
+      ),
+    ];
+
+    setStatuses(mergedStatuses);
   }, []);
 
   const handleInputChange = async (e) => {
@@ -124,16 +142,6 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
       console.error("Error deleting task:", error.message);
     }
   };
-
-  useEffect(() => {
-    const createdStatuses =
-      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
-    const structuredStatuses = createdStatuses.map((status) => ({
-      value: status.value || status,
-      name: status.name || status,
-    }));
-    statuses.push(...structuredStatuses);
-  }, []);
 
   return (
     <AppModal isVisible={true} onChange={onClose}>

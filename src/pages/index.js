@@ -25,14 +25,11 @@ export default function HomePage() {
     const addedColumns =
       JSON.parse(localStorage.getItem("customTaskColumns")) || [];
     setCustomTaskColumns(addedColumns);
-  }, []);
 
-  useEffect(() => {
     const fetchTask = async () => {
       const res = await getTasksRequest();
       dispatch({ type: "INITIALIZE_TASKS", payload: res });
     };
-
     fetchTask();
   }, []);
 

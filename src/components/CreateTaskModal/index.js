@@ -17,7 +17,7 @@ import {
 import { formReducer, INITIAL_STATE } from "../../services/reducer";
 import styles from "./CreateTaskModal.module.scss";
 
-const statuses = [
+const defaultStatuses = [
   { value: "todo", name: "To Do" },
   { value: "inprogress", name: "In Progress" },
   { value: "done", name: "Done" },
@@ -31,6 +31,7 @@ export default function CreateTaskModal({
   const [taskData, dispatch] = useReducer(formReducer, INITIAL_STATE);
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
+  const [statuses, setStatuses] = useState(defaultStatuses);
 
   const fetchUsers = async () => {
     const res = await getUsersRequest();
@@ -43,6 +44,23 @@ export default function CreateTaskModal({
 
   useEffect(() => {
     fetchUsers();
+
+    const createdStatuses =
+      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
+    const structuredStatuses = createdStatuses.map((status) => ({
+      value: status.value || status,
+      name: status.name || status,
+    }));
+
+    const mergedStatuses = [
+      ...defaultStatuses,
+      ...structuredStatuses.filter(
+        (customStatus) =>
+          !defaultStatuses.some((status) => status.value === customStatus.value)
+      ),
+    ];
+
+    setStatuses(mergedStatuses);
   }, []);
 
   const handleInputChange = async (e) => {
@@ -107,16 +125,6 @@ export default function CreateTaskModal({
       console.error("Error creating task:", error.message);
     }
   };
-
-  useEffect(() => {
-    const createdStatuses =
-      JSON.parse(localStorage.getItem("customTaskColumns")) || [];
-    const structuredStatuses = createdStatuses.map((status) => ({
-      value: status.value || status,
-      name: status.name || status,
-    }));
-    statuses.push(...structuredStatuses);
-  }, []);
 
   return (
     <AppModal
