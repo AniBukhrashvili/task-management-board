@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# Task Management Board
+This is a responsive Task Management application that includes functionalities for managing tasks, as well as advanced features like dynamic columns, task status updates and user management.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Technologies Used:
+* Frontend: React
+* Backend: Node.js / Express
+* Database: MongoDB / Mongoose
+* Form Validation: Yup
+* Drag-and-Drop: React DnD
+  
+## Features
+- Task Management:
+  - Create Tasks: Easily add tasks with customizable details including title, description, due date, status and assigned users.
+  - Update Tasks: Modify task details as needed.
+  - Delete Tasks: Remove tasks from the board when no longer needed.
+- Dynamic Task Status Management:
+  - Drag-and-Drop: Move tasks across different columns.
+  - Custom Columns: Dynamically create and manage additional columns (statuses) with custom labels.
+- User Seeder:
+  - Populate the MongoDB database with predefined users using a seeder.
+- Form Validation:
+  - Yup validation ensures data integrity when creating or updating tasks/columns.
 
-## Available Scripts
+## Overview
+#### Task Management Dashboard
+<img width="80%" alt="Screenshot 2025-01-24 at 10 06 11 PM" src="https://github.com/user-attachments/assets/73b4def3-1471-43a6-a8db-16a1d825f8fa" />
 
-In the project directory, you can run:
+#### Task Drag-and-Drop
+<img width="80%" alt="Screenshot 2025-01-24 at 11 44 29 PM" src="https://github.com/user-attachments/assets/fe1677cf-07e3-4cef-b96b-d88eebd67b8f" />
 
-### `npm start`
+#### Modals
+<img src="https://github.com/user-attachments/assets/58d5bd1e-1b27-4533-8e93-12327e3f11ed" width="48%" />
+<img src="https://github.com/user-attachments/assets/404c0956-948b-4609-a996-c95a0c06b2f4" width="48%" />
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<img width="48%" src="https://github.com/user-attachments/assets/b77bd057-3f93-404c-943d-bb85f1fd68c9" />
+<img width="48%" src="https://github.com/user-attachments/assets/30565228-68f5-4859-915a-6f95227174e7" />
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
