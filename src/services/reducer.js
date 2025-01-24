@@ -22,6 +22,8 @@ export const formReducer = (state, action) => {
           ? { ...task, status: action.payload.newStatus }
           : task
       );
+    case "DELETE_TASK":
+      return state.filter((task) => task._id !== action.payload);
     case "UPDATE_FIELD":
       return {
         ...state,

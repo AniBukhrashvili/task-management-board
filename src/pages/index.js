@@ -50,8 +50,12 @@ export default function HomePage() {
     dispatch({ type: "CREATE_TASK", payload: newTask });
   };
 
-  const handleTaskUpdate = (updatedTask) => {
-    dispatch({ type: "UPDATE_TASK", payload: updatedTask });
+  const handleTaskUpdate = (taskData, action = "update") => {
+    if (action === "delete") {
+      dispatch({ type: "DELETE_TASK", payload: taskData });
+    } else {
+      dispatch({ type: "UPDATE_TASK", payload: taskData });
+    }
     handleModalClose();
   };
 

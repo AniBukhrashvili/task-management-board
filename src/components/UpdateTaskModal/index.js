@@ -118,7 +118,7 @@ export default function UpdateTaskModal({ task, onClose, onTaskUpdate }) {
   const handleDelete = async () => {
     try {
       await deleteTaskRequest({ id: taskData.id });
-      onTaskUpdate(null);
+      onTaskUpdate(taskData.id, "delete");
       onClose();
     } catch (error) {
       console.error("Error deleting task:", error.message);
